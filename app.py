@@ -29,5 +29,11 @@ def refresh_db():
     response = {'success': True}
     return jsonify(response)
 
+
+@app.route('/health', methods=['GET'])
+def health():
+    response = {'success': 'Toy on Fayaaaaaaaar'}
+    return jsonify(response)
+
 if __name__ == '__main__':
     app.run()
