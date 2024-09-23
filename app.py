@@ -24,9 +24,12 @@ def query():
 
 @app.route('/refresh', methods=['GET'])
 def refresh_db():
-    client = chromadb.PersistentClient()
-    client.delete_collection("my_collection")
-    response = {'success': True}
+    try:
+        client = chromadb.PersistentClient()
+        client.delete_collection("my_collection")
+        response = {'success': True}
+    except:
+        response = {'success': False}
     return jsonify(response)
 
 
