@@ -5,7 +5,7 @@ from process import process_files, query_collection
 import chromadb
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route('/process', methods=['POST'])
