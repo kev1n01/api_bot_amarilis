@@ -2,20 +2,29 @@ import re
 import chromadb
 
 document_id = 1
+ALLOWED_EXTENSIONS = {'pdf', 'txt', 'md'}
 
-def process_files(documents):
-  
+def allowed_file(filename):             
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+class UploadException(Exception):
+    pass
+
+def process_files(extension, file):  
     client = chromadb.PersistentClient()
 
     collection = client.get_or_create_collection(name="my_collection")
 
-    for file in documents:
-        print("processing file: " + file.filename)
+    if extension == '.txt' or extension == '.md':
         markdown_text = file.read().decode()
         chunks = split_text(markdown_text)
         document_title = get_title(markdown_text)
         generate_embeddings(chunks, document_title, file.filename, collection)
-
+    if(extension == '.pdf'):
+        print("pdf aqui no she que achel")
+        pass
+    
 
 def generate_embeddings(chunks, document_title, file_name, collection):
     global document_id
@@ -51,5 +60,5 @@ def query_collection(query):
     collection = client.get_or_create_collection(name="my_collection")
     return collection.query(
         query_texts=[query],
-        n_results=2,
+        n_results=10,
     )
