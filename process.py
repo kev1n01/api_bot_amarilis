@@ -60,5 +60,5 @@ def query_collection(query):
     collection = client.get_or_create_collection(name="my_collection")
     return collection.query(
         query_texts=[query],
-        n_results=10,
+        n_results=4,
     )
